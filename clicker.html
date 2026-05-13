@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Clicker</title>
+
+<style>
+body {
+    background-color: #151554;
+    text-align: center;
+    color: white;
+    font-family: 'Comic Sans MS', system-ui;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #de661a;
+    border: black solid 4px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #c1400d;
+}
+
+.sprite {
+    background-image: url('shoot.png'); /* DEFAULT SPRITE */
+    background-repeat: no-repeat;
+    display: block;
+    width: 512px;
+    height: 512px;
+    background-size: 1536px 512px;
+    border: #000 solid 4px;
+    cursor: pointer;
+}
+
+.sprite.animate {
+    animation: play 0.3s steps(3);
+}
+
+.sprite.auto {
+    animation: play 0.5s steps(3) infinite;
+}
+
+@keyframes play {
+    from { background-position: 0 0; }
+    to { background-position: -1536px 0; }
+}
+
+.game-layout {
+    display: flex;
+    justify-content: center;
+    gap: 90px;
+    margin-top: 20px;
+}
+
+.logo {
+    width: 500px;
+    height: auto;
+    position: absolute;
+    top: 40px;
+    left: 20px;
+    margin-bottom: 20px;
+}
+
+.save-icon {
+    width: 200px;
+    height: auto;
+    position: absolute;
+    top: 200px;
+    right: 80px;
+}
+
+.instructions {
+    font-size: 24px;
+    color: white;
+    top: 100px;
+    left: 50px;
+}
+</style>
+</head>
+
+<body>
+
+<img src="image.png" width="500" alt="Left Image">
+
+<div class="instructions">CLICK ON THE BALL TO SHOOT HOOPS!</div>
+
+<div class="image-container">
+  <img src="save.png" class="save-icon" alt="Right Image">
+</div>
+
+<div class="game-layout">
+    <div class="sprite" id="icon1" onclick="clickCookie()"></div>
+
+    <div>
+        <p>POINTS: <span id="scoreValue">0</span></p>
+        <p id="clickValue">Click Value: 1</p>
+        <p id="accuracyText">Accuracy: 10%</p>
+        <p id="AUTO-SHOOTERStatus">Auto-Shooter: Off</p>
+        <p id="resultText"></p>
+
+        <button onclick="goToMainMenu()">Back To Main Menu</button>
+        <button onclick="manualSaveGame()">Save Game</button>
+        <button onclick="manualLoadGame()">Load Game</button>
+        <button onclick="goToShop()">Go to Shop</button>
+    </div>
+</div>
+
+<script>
+let score = 0;
+let clickValue = 1;
+let autoShooterEnabled = false;
+let autoShooterSpeed = 1;
+let autoShooterInterval = null;
+let purchasedItems = {};
+let accuracy = 0.1;
+let currentSprite = "shoot.png"; // DEFAULT
+
+function applyThrowableSprite() {
+    const sprite = document.getElementById("icon1");
+    sprite.style.backgroundImage = `url('${currentSprite}')`;
+}
+
+function clickCookie() {
+    const sprite = document.getElementById("icon1");
+    const resultText = document.getElementById("resultText");
+
+    sprite.classList.remove("animate");
+    void sprite.offsetWidth;
+    sprite.classList.add("animate");
+
+    if (Math.random() < accuracy) {
+        score += clickValue;
+        resultText.innerText = "Score!";
+        resultText.style.color = "green";
+    } else {
+        resultText.innerText = "Miss!";
+        resultText.style.color = "red";
+    }
+
+    updateDisplay();
+    saveGame();
+}
+
+function loadGame(showMessage = false) {
+    const save = JSON.parse(localStorage.getItem("cookieClickerSave"));
+
+    if (save) {
+        score = save.score || 0;
+        clickValue = save.clickValue || 1;
+        autoShooterEnabled = save.autoShooterEnabled || false;
+        autoShooterSpeed = save.autoShooterSpeed || 1;
+        purchasedItems = save.purchasedItems || {};
+        accuracy = save.accuracy || 0.1;
+        currentSprite = save.currentSprite || "shoot.png";
+
+        applyThrowableSprite();
+
+        if (autoShooterEnabled) {
+            startAutoShooter();
+        }
+
+        updateDisplay();
+
+        if (showMessage) alert("Game loaded!");
+    } else {
+        applyThrowableSprite();
+        updateDisplay();
+
+        if (showMessage) alert("No saved game found.");
+    }
+}
+
+function saveGame(showMessage = false) {
+    localStorage.setItem("cookieClickerSave", JSON.stringify({
+        score,
+        clickValue,
+        autoShooterEnabled,
+        autoShooterSpeed,
+        purchasedItems,
+        accuracy,
+        currentSprite
+    }));
+
+    if (showMessage) alert("Game saved!");
+}
+
+function manualSaveGame() { saveGame(true); }
+function manualLoadGame() { loadGame(true); }
+
+function startAutoShooter() {
+    clearInterval(autoShooterInterval);
+    document.getElementById("icon1").classList.add("auto");
+
+    autoShooterInterval = setInterval(() => {
+        score += clickValue;
+        updateDisplay();
+        saveGame();
+    }, 1000 / autoShooterSpeed);
+}
+
+function updateDisplay() {
+    document.getElementById("scoreValue").innerText = score;
+    document.getElementById("clickValue").innerText = "Click Value: " + clickValue;
+    document.getElementById("accuracyText").innerText =
+        "Accuracy: " + Math.round(accuracy * 100) + "%";
+
+    document.getElementById("AUTO-SHOOTERStatus").innerText =
+        "Auto-Shooter: " + (autoShooterEnabled ? "On" : "Off");
+}
+
+function goToShop() {
+    saveGame();
+    window.location.href = "shop.html";
+}
+
+function goToMainMenu() {
+    saveGame();
+    window.location.href = "index.html";
+}
+
+loadGame();
+</script>
+
+</body>
+</html>

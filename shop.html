@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Shop</title>
+
+<style>
+body {
+    text-align: center;
+    font-family: Comic Sans MS, sans-serif;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #f0c2d9;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 20px;
+    font-family: 'Comic Sans MS', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #de661a;
+    border: black solid 4px;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #c1400d;
+}
+
+button:disabled {
+    background-color: gray;
+    color: white;
+    cursor: not-allowed;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    padding: 40px;
+}
+
+.card {
+    background: black;
+    color: white;
+    border: black solid 8px;
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.card img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    object-position: center;
+    border-bottom: black solid 4px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Shop</h1>
+<p>Points: <span id="scoreValue">0</span></p>
+
+<section class="gallery">
+
+<div class="card">
+<img src="soda.png">
+<h3>Upgrade 1</h3>
+<button id="upgrade1Btn" onclick="buyUpgrade(10,2,'upgrade1Btn')">Buy (10)</button>
+</div>
+
+<div class="card">
+<img src="Football.png">
+<h3>Football</h3>
+<button id="footballBtn" onclick="buyThrowable(40,1,'footballBtn','spritesheet_3frames.png')">Buy (40)</button>
+</div>
+
+<div class="card">
+<img src="InRainbows.png">
+<h3>Collectable</h3>
+<button id="collect1Btn" onclick="buyCollectable(80,'collect1Btn')">Buy (80)</button>
+</div>
+
+<div class="card">
+<img src="Goggles.png">
+<h3>Better Aim</h3>
+<p>Increase shooting accuracy</p>
+<button id="accuracyBtn" onclick="buyAccuracy(50,'accuracyBtn')">Buy (50)</button>
+</div>
+
+<div class="card">
+<img src="Back.png">
+<h3>Collectable</h3>
+<button id="collect2Btn" onclick="buyCollectable(80,'collect2Btn')">Buy (80)</button>
+</div>
+
+<div class="card">
+<img src="Headphones.png">
+<h3>Upgrade 2</h3>
+<button id="upgrade2Btn" onclick="buyUpgrade(500,4,'upgrade2Btn')">Buy (500)</button>
+</div>
+
+<div class="card">
+<img src="Bag.png">
+<h3>Bag</h3>
+<button id="bagBtn" onclick="buyThrowable(500,1,'bagBtn','spritesheet_3frames_shooter1.png')">Buy (500)</button>
+</div>
+
+<div class="card">
+<img src="MrBoss.png">
+<h3>Collectable</h3>
+<button id="collect3Btn" onclick="buyCollectable(800,'collect3Btn')">Buy (800)</button>
+</div>
+
+<div class="card">
+<img src="OJsglove.png">
+<h3>Better Aim</h3>
+<p>Increase shooting accuracy</p>
+<button id="ojBtn" onclick="buyBadAccuracy(100,'ojBtn')">Buy (100)</button>
+</div>
+
+<div class="card">
+<img src="JobApp.png">
+<h3>Job Application</h3>
+<button id="jobAppBtn" onclick="buyThrowable(300,1,'jobAppBtn','spritesheet_3frames_v2.png')">Buy (300)</button>
+</div>
+
+<div class="card">
+<img src="AS1.png">
+<h3>Auto-Shooter</h3>
+<button id="autoShooterBtn" onclick="buyAutoShooter(600,1,'autoShooterBtn')">Buy (600)</button>
+</div>
+
+<div class="card">
+<img src="Trash.png">
+<h3>Collectable</h3>
+<button id="collect4Btn" onclick="buyCollectable(700,'collect4Btn')">Buy (700)</button>
+</div>
+
+<div class="card">
+<img src="Lebron.png">
+<h3>Collectable</h3>
+<button id="collect5Btn" onclick="buyCollectable(900,'collect5Btn')">Buy (900)</button>
+</div>
+
+<div class="card">
+<img src="Miralax.png">
+<h3>Collectable</h3>
+<button id="collect6Btn" onclick="buyCollectable(300,'collect6Btn')">Buy (300)</button>
+</div>
+
+<div class="card">
+<img src="Matorade.png">
+<h3>Upgrade 1</h3>
+<button id="upgrade3Btn" onclick="buyUpgrade(2000,2,'upgrade3Btn')">Buy (2000)</button>
+</div>
+
+<div class="card">
+<img src="Pufferfish.png">
+<h3>Pufferfish</h3>
+<button id="pufferfishBtn" onclick="buyThrowable(3000,1,'pufferfishBtn','spritesheet_3frames_shooter6.png')">Buy (3000)</button>
+</div>
+
+<div class="card">
+<img src="MJsglove.png">
+<h3>Better Aim</h3>
+<p>Increase shooting accuracy</p>
+<button id="mjBtn" onclick="buyAccuracy(5000,'mjBtn')">Buy (5000)</button>
+</div>
+
+<div class="card">
+<img src="Kendih.png">
+<h3>Collectable</h3>
+<button id="collect7Btn" onclick="buyCollectable(10000,'collect7Btn')">Buy (10000)</button>
+</div>
+
+<div class="card">
+<img src="Baby.png">
+<h3>Baby</h3>
+<button id="babyBtn" onclick="buyThrowable(100000,1,'babyBtn','spritesheet_3frames_shooter7.png')">Buy (100000)</button>
+</div>
+
+<div class="card">
+<img src="AS2.png">
+<h3>Auto Upgrade</h3>
+<button id="upgradeAutoBtn" onclick="buyUpgradeAutoShooter(500000,1,'upgradeAutoBtn')">Buy (500000)</button>
+</div>
+
+<div class="card">
+<img src="Newports.png">
+<h3>Better Aim</h3>
+<p>Increase shooting accuracy</p>
+<button id="newportsBtn" onclick="buyBadAccuracy(2000,'newportsBtn')">Buy (2000)</button>
+</div>
+
+<div class="card">
+<img src="Figure.png">
+<h3>Collectable</h3>
+<button id="collect8Btn" onclick="buyCollectable(50000,'collect8Btn')">Buy (50000)</button>
+</div>
+
+<div class="card">
+<img src="Energy.png">
+<h3>Upgrade 1</h3>
+<button id="upgrade4Btn" onclick="buyUpgrade(500000,2,'upgrade4Btn')">Buy (500000)</button>
+</div>
+
+<div class="card">
+<img src="Nuggs.png">
+<h3>Better Aim</h3>
+<p>Increase shooting accuracy</p>
+<button id="nuggsBtn" onclick="buyAccuracy(10000000,'nuggsBtn')">Buy (10000000)</button>
+</div>
+
+<div class="card">
+<img src="PS5.png">
+<h3>Collectable</h3>
+<button id="collect9Btn" onclick="buyCollectable(900000000,'collect9Btn')">Buy (900000000)</button>
+</div>
+
+</section>
+
+<br>
+
+<button onclick="goBack()">Back to Game</button>
+
+<script>
+let score = 0;
+let clickValue = 1;
+let autoShooterEnabled = false;
+let autoShooterSpeed = 1;
+let purchasedItems = {};
+let accuracy = 0.1;
+let currentSprite = "spritesheet.png";
+
+function loadGame() {
+    const save = JSON.parse(localStorage.getItem("cookieClickerSave"));
+
+    if (save) {
+        score = save.score || 0;
+        clickValue = save.clickValue || 1;
+        autoShooterEnabled = save.autoShooterEnabled || false;
+        autoShooterSpeed = save.autoShooterSpeed || 1;
+        purchasedItems = save.purchasedItems || {};
+        accuracy = save.accuracy || 0.1;
+        currentSprite = save.currentSprite || "spritesheet.png";
+    }
+
+    updateDisplay();
+    restoreButtons();
+}
+
+function saveGame() {
+    localStorage.setItem("cookieClickerSave", JSON.stringify({
+        score,
+        clickValue,
+        autoShooterEnabled,
+        autoShooterSpeed,
+        purchasedItems,
+        accuracy,
+        currentSprite
+    }));
+}
+
+function markPurchased(id) {
+    purchasedItems[id] = true;
+
+    const btn = document.getElementById(id);
+    if (btn) {
+        btn.disabled = true;
+        btn.innerText = "Owned";
+    }
+
+    saveGame();
+}
+
+function restoreButtons() {
+    for (let id in purchasedItems) {
+        if (purchasedItems[id]) {
+            const btn = document.getElementById(id);
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = "Owned";
+            }
+        }
+    }
+}
+
+function buyUpgrade(cost, value, id) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost) {
+        score -= cost;
+        clickValue += value;
+        markPurchased(id);
+        updateDisplay();
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function buyAutoShooter(cost, speed, id) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost) {
+        score -= cost;
+        autoShooterEnabled = true;
+        autoShooterSpeed = speed;
+        markPurchased(id);
+        updateDisplay();
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function buyUpgradeAutoShooter(cost, speed, id) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost && autoShooterEnabled) {
+        score -= cost;
+        autoShooterSpeed += speed;
+        markPurchased(id);
+        updateDisplay();
+    } else if (!autoShooterEnabled) {
+        alert("Buy Auto Shooter first!");
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function buyAccuracy(cost, id) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost) {
+        score -= cost;
+        accuracy += 0.1;
+
+        if (accuracy > 1) {
+            accuracy = 1;
+        }
+
+        markPurchased(id);
+        updateDisplay();
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function buyCollectable(cost, id) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost) {
+        score -= cost;
+        markPurchased(id);
+        updateDisplay();
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function buyThrowable(cost, amount, id, spriteFile) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost) {
+        score -= cost;
+        currentSprite = spriteFile;
+        markPurchased(id);
+        updateDisplay();
+        saveGame();
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function buyBadAccuracy(cost, id) {
+    if (purchasedItems[id]) return alert("Already owned!");
+
+    if (score >= cost) {
+        score -= cost;
+        accuracy -= 0.05;
+
+        if (accuracy < 0) {
+            accuracy = 0;
+        }
+
+        markPurchased(id);
+        updateDisplay();
+    } else {
+        alert("Not enough points!");
+    }
+}
+
+function updateDisplay() {
+    document.getElementById("scoreValue").innerText = score;
+}
+
+function goBack() {
+    saveGame();
+    window.location.href = "clicker.html";
+}
+
+loadGame();
+</script>
+
+</body>
+</html>
